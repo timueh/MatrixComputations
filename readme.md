@@ -10,6 +10,6 @@ The answer is simple: to get a better understanding for the elementary algorithm
 The algorithms are based on two prominent sources:
 
 - "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
-- "Fundamentals of Matrix Computations", D. Watkins, John Wiley & Sons, 1991
+- "Fundamentals of Matrix Computations", D.S. Watkins, John Wiley & Sons, 1991
 
 The code has been tested for Julia versions >= 1.2.
