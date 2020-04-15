@@ -1,7 +1,12 @@
 export qr
 
+"""
+Given an `m`-by-`n`-dimensional Matrix `A` (`m >= n`), return `Q` and `R` such that `A = QR`.
+`Q` is orthogonal, and `R` is upper triangular.
+
+see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
+"""
 function qr(A::AbstractMatrix)
-    # see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
     m, n = size(A)
     @assert(m >= n, "implemented only for square matrices")
 

@@ -15,8 +15,12 @@ size(H::HouseholderMatrix) = length(H.v), length(H.v)
 
 getindex(H::HouseholderMatrix, i::Int, j::Int) = 1 * (i==j) - H.β * H.v[i]*H.v[j]
 
+"""
+Given a vector `x` return the Householder matrix `P` such that `Px` is zero at entries `k+1, ..., j`.
+
+see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
+"""
 function create_projection(x::AbstractVector, k::Int, j::Int)
-    # see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
     n = length(x)
     @assert(1 <= k <= j <= n, "inconsistent indices")
     m = norm(x[k:j], Inf)
@@ -37,8 +41,12 @@ end
 
 create_projection(x::AbstractVector, range::UnitRange) = create_projection(x, range.start, range.stop)
 
+"""
+Given a vector `x` with `n` entries return the Householder matrix `P` and the number `σ` such that `Px` is `[σ, 0, ..., 0]'`.
+
+see "Fundamentals of Matrix Computations", D. Watkins, John Wiley & Sons, 1991
+"""
 function create_projection(x::AbstractVector)
-    # see "Fundamentals of Matrix Computations", D. Watkins, John Wiley & Sons, 1991
     m = norm(x, Inf)
     y = copy(x)
 
@@ -53,8 +61,12 @@ function create_projection(x::AbstractVector)
     HouseholderMatrix(y, γ), σ
 end
 
+"""
+Given a Householder matrix `H` and vector `x` of suitable dimensions, return `Hx`.
+
+see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
+"""
 function *(H::HouseholderMatrix, x::AbstractVector)
-    # see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
     v, β = H.v, H.β
     k, j = H.nnz
     y = copy(x)
@@ -66,8 +78,12 @@ function *(H::HouseholderMatrix, x::AbstractVector)
     y
 end
 
-function *(H::HouseholderMatrix, X::AbstractMatrix)
-    # see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
+"""
+Given a Householder matrix `H` and matrix `X` of suitable dimensions, return `HX`.
+
+see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
+"""
+function *(H::HouseholderMatrix, X::AbstractMatrix)    
     v, β = H.v, H.β
     k, j = H.nnz
     Y = copy(X)
