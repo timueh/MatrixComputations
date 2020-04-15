@@ -24,7 +24,6 @@ n_values = 2:2:10
             @test create_projection(x, k, j) == create_projection(x, k:j)
             end
         end
-
         @test isapprox(norm(create_projection(x, 1, n) - create_projection(x)[1]), 0, atol=1e-14)
     end
 end
