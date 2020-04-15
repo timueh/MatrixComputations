@@ -1,4 +1,4 @@
-[![Build status](https://travis-ci.org/timueh/MatrixComputations.jl.svg?branch=master)](https://travis-ci.org/timueh/MatrixComputations.jl)
+[![Build Status](https://travis-ci.org/timueh/MatrixComputations.svg?branch=master)](https://travis-ci.org/timueh/MatrixComputations)
 
 # Matrix computations
 
