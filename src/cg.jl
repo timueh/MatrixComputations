@@ -22,14 +22,14 @@ function cg(A::AbstractMatrix, b::AbstractVector; ε = 1e-12, kmax::Int=500)
     x
 end
 
-function cg_precond(A::AbstractMatrix, b::AbstractVector; ε = 1e-12, kmax::Int=500)
+function cg_precond(A::AbstractMatrix, b::AbstractVector)
     @assert( size(A)[1] == size(A)[2] == length(b), "inconsistent dimensions")
     @assert( norm(A - A') ≈ 0 && isposdef(A), "matrix is not symmetric & positive definite")
     m = diag(A)
 
     n = length(b)
-    x, r = zeros(Float64, n), copy(b)
-    z, z_, r_, p = zeros(Float64, n), zeros(Float64, n),  zeros(Float64, n), zeros(Float64, n)
+    r = copy(b)
+    x = z = z_ = r_ = p = zeros(Float64, n)
 
     for k in 1:n
         isapprox(norm(r, Inf), 0, atol=1e-12) && return x
