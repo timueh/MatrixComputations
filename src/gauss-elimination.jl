@@ -1,4 +1,5 @@
 export  forward_elimination,
+        forward_elimination!,
         backward_substitution,
         gauss_elimination,
         solve
@@ -23,13 +24,27 @@ function forward_elimination(L, x)
     y
 end
 
+function forward_elimination!(L, x)
+    @assert( !isapprox(prod(diag(L)), 0), "matrix appears to be singular (det = $(prod(diag(L))))" )
+    n = length(x)
+    @assert( size(L)[1] == size(L)[2] == n, "inconsistent dimensions" )
+
+    for i in 1:n
+        # y[i] = x[i]
+        for j in 1:i-1
+            x[i] -= L[i, j]*x[j] 
+        end
+        x[i] /= L[i, i]
+    end
+end
+
 """
 Given an `n`-by-`n` nonsingular upper triangular matrix `U` and corresponding y, this algorithm finds `x` such that `Ux = y`.
 
 See "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins University Press, 1983
 """
 function backward_substitution(U, y)
-    @assert( !isapprox(prod(diag(U)), 0), "matrix appears to be singular (det = $(prod(diag(L))))" )
+    @assert( !isapprox(prod(diag(U)), 0), "matrix appears to be singular (det = $(prod(diag(U))))" )
     n, x = length(y), similar(y)
     @assert( size(U)[1] == size(U)[2] == n, "inconsistent dimensions" )
     for i = n:-1:1
@@ -74,7 +89,7 @@ function gauss_elimination(M::AbstractMatrix)
     A = copy(M)
     for k in 1:n-1
         # find maximal pivot
-        amax, imax = findmax(abs.(A[k:n, k]))
+        @show amax, imax = findmax(abs.(A[k:n, k]))
         imax += k - 1
 
         if amax == 0
@@ -98,7 +113,7 @@ end
 function create_permutation_matrix(n::Int, r::Vector{Int})
     P = spdiagm(0 => ones(Int64, n))
     for (k, rk) in enumerate(r)
-        P = create_permutation_matrix(n, k, rk)*P
+        P = create_permutation_matrix(n, k, rk) * P
     end
     P
 end
