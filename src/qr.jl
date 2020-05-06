@@ -8,7 +8,7 @@ see "Matrix Computations", G.H. Golub and C.F. Van Loan, Johns Hopkins Universit
 """
 function qr(A::AbstractMatrix)
     m, n = size(A)
-    @assert(m >= n, "implemented only for square matrices")
+    @assert(m >= n, "implemented only for matrices Nrows >= Ncolumns")
 
     P = Vector{HouseholderMatrix}(undef, n)
     R = copy(A)
